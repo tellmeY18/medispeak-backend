@@ -1,24 +1,62 @@
-# README
+# Medispeak Backend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Medispeak: Transforming Patient-Doctor Dialogues Worldwide!
 
-Things you may want to cover:
+This is the backend API for Medispeak, a tool that provides seamless transcriptions and effortless EMR integration. Our goal is to streamline patient-doctor interactions and automate form filling processes.
 
-* Ruby version
+## Features
 
-* System dependencies
+- Automated transcription of patient-doctor dialogues and form filling with plugin
+- API for transcription and data structuring
+- Template management for various medical forms in different emr systems
 
-* Configuration
+## Tech Stack
 
-* Database creation
+- Ruby on Rails
+- PostgreSQL
 
-* Database initialization
+## Getting Started
 
-* How to run the test suite
+### Prerequisites
 
-* Services (job queues, cache servers, search engines, etc.)
+- Ruby (version specified in `.ruby-version`)
+- Rails (version specified in `Gemfile`)
+- PostgreSQL
 
-* Deployment instructions
+### Installation
 
-* ...
+1. Clone the repository:
+
+   ```
+   git clone https://github.com/medispeak/medispeak_backend.git
+   cd medispeak_backend
+   ```
+
+2. Install dependencies:
+
+   ```
+   bundle install
+   ```
+
+3. Set up the database:
+
+   ```
+   rails db:create db:migrate
+   ```
+
+4. Set up environment variables:
+
+   ```
+   cp example.env .env
+   ```
+
+   Edit `.env` and add your configuration details.
+
+5. Start the server:
+   ```
+   ./bin/dev
+   ```
+
+## API Documentation
+
+WIP
