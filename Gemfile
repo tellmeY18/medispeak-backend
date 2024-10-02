@@ -23,6 +23,16 @@ gem 'delayed_job_active_record', '~> 4.1'
 
 gem "administrate", '1.0.0.beta1'
 
+# Open AI ruby
+gem "ruby-openai", "~> 6.2.0"
+
+gem "pagy", "~> 9.0.9"
+
+gem "pundit", "~> 2.4"
+
+gem "kaminari", "~> 1.2"
+
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 

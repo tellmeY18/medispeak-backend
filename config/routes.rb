@@ -20,9 +20,41 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  get "demo", to: "home#demo"
-  root "home#demo"
+  resources :templates, only: [:index, :show] do
+    resources :pages, only: [:index, :create, :new]
+  end
+
+  resources :pages, only: [:show] do
+    resources :form_fields, only: [:index]
+  end
+
+  resources :form_fields, only: [:show, :edit, :update, :destroy]
+  resources :transcriptions, only: [:index]
+
+  authenticated :user do
+    root to: "dashboard#show", as: :user_root
+  end
+
+  get '/demo', to: 'home#demo'
+
+  root to: "dashboard#show"
 
   resources :api_tokens, only: [:index, :show, :new, :create, :destroy]
+
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      resource :me, controller: :me
+      resources :templates, only: [:show] do
+        get :find_by_domain, on: :collection
+      end
+      resources :pages, only: [] do
+        resources :transcriptions, only: [:create]
+      end
+      resources :transcriptions, only: [:show, :index] do
+        member do
+          post :generate_completion
+        end
+      end
+    end
+  end
 end

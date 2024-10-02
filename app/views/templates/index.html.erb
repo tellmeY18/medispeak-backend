@@ -1,0 +1,26 @@
+<%= content_for :title, "Supported Apps" %>
+<%= turbo_stream_from :templates %>
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h1 class="h3">Templates</h1>
+      <div class="text-sm font-medium">
+        <span class="text-gray-500 dark:text-gray-300/75">Sort by:</span>
+        <%= sortable @templates, :title, "Title", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @templates, :fqdn, "Fqdn", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @templates, :autofill, "Autofill", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+      </div>
+    </div>
+  </div>
+  <%= tag.div id: ("templates" if first_page?), class: "space-y-8" do %>
+    <%= render partial: "templates/index", collection: @templates, as: :template, cached: true %>
+    <div class="hidden only:flex flex-col items-center justify-between lg:flex-row">
+      <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
+    </div>
+  <% end %>
+  <% if @pagy.pages > 1 %>
+    <div class="my-6 text-center">
+      <%== pagy_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>

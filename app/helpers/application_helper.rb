@@ -8,4 +8,8 @@ module ApplicationHelper
     filename = "#{name}.svg"
     inline_svg_tag(filename, options)
   end
+
+  def first_page?
+    @pagy.page == 1
+  end
 end
