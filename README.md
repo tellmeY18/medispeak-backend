@@ -28,7 +28,7 @@ This is the backend API for Medispeak, a tool that provides seamless transcripti
 1. Clone the repository:
 
    ```
-   git clone https://github.com/medispeak/medispeak_backend.git
+   git clone https://github.com/medispeak/backend.git
    cd medispeak_backend
    ```
 
