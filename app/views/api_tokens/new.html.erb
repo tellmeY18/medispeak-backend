@@ -1,0 +1,27 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">Generate New API Token</h1>
+  <%= form_with(model: @api_token, data: { turbo: false }, class: "space-y-6") do |form| %>
+    <% if @api_token.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Error:</strong>
+        <ul>
+          <% @api_token.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div>
+      <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :name, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+    <div>
+      <%= form.label :expires_at, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.datetime_select :expires_at, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
+    <div>
+      <%= form.submit "Generate Token", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    </div>
+  <% end %>
+  <%= link_to 'Back to API Tokens', api_tokens_path, class: "mt-4 inline-block text-sm text-indigo-600 hover:text-indigo-500" %>
+</div>

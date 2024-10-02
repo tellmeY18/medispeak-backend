@@ -23,4 +23,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   get "demo", to: "home#demo"
   root "home#demo"
+
+  resources :api_tokens, only: [:index, :show, :new, :create, :destroy]
 end

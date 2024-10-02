@@ -28,7 +28,7 @@ class UserDashboard < Administrate::BaseDashboard
     id
     email
     admin
-    remember_created_at
+    api_tokens
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -36,11 +36,8 @@ class UserDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     email
-    encrypted_password
-    remember_created_at
-    reset_password_sent_at
-    reset_password_token
     admin
+    api_tokens
     created_at
     updated_at
   ].freeze
@@ -50,10 +47,7 @@ class UserDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     email
-    encrypted_password
-    remember_created_at
-    reset_password_sent_at
-    reset_password_token
+    password
     admin
   ].freeze
 
