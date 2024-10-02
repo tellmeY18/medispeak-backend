@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_10_02_075333) do
+ActiveRecord::Schema[8.0].define(version: 2024_10_02_075716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,61 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_02_075333) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "domains", force: :cascade do |t|
+    t.bigint "template_id", null: false
+    t.string "fqdn", null: false
+    t.boolean "archived", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["template_id"], name: "index_domains_on_template_id"
+  end
+
+  create_table "form_fields", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.bigint "page_id", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_form_fields_on_page_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.bigint "webapp_id"
+    t.bigint "template_id", null: false
+    t.string "name"
+    t.string "prompt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["template_id"], name: "index_pages_on_template_id"
+    t.index ["webapp_id"], name: "index_pages_on_webapp_id"
+  end
+
+  create_table "templates", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description", null: false
+    t.boolean "archived", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transcriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "page_id", null: false
+    t.jsonb "ai_response", default: {}, null: false
+    t.text "transcription_text"
+    t.string "status", default: "pending", null: false
+    t.integer "duration", default: 0
+    t.integer "prompt_tokens", default: 0
+    t.integer "completion_tokens", default: 0
+    t.integer "total_tokens", default: 0
+    t.jsonb "context", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_transcriptions_on_page_id"
+    t.index ["user_id"], name: "index_transcriptions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -41,4 +96,22 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_02_075333) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  create_table "webapps", force: :cascade do |t|
+    t.string "title"
+    t.string "fqdn"
+    t.boolean "autofill"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_webapps_on_user_id"
+  end
+
+  add_foreign_key "domains", "templates"
+  add_foreign_key "form_fields", "pages"
+  add_foreign_key "pages", "templates"
+  add_foreign_key "pages", "webapps"
+  add_foreign_key "transcriptions", "pages"
+  add_foreign_key "transcriptions", "users"
+  add_foreign_key "webapps", "users"
 end

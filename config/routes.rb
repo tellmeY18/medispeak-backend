@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   namespace :admin do
       resources :users
+      resources :templates
+      resources :domains
+      resources :pages, except: [:destroy]
+      resources :form_fields
+      resources :transcriptions, except: [:destroy]
 
       root to: "users#index"
     end
