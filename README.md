@@ -17,46 +17,6 @@ This is the backend API for Medispeak, a tool that provides seamless transcripti
 
 ## Getting Started
 
-### Prerequisites
+## Setup
 
-- Ruby (version specified in `.ruby-version`)
-- Rails (version specified in `Gemfile`)
-- PostgreSQL
-
-### Installation
-
-1. Clone the repository:
-
-   ```
-   git clone https://github.com/medispeak/backend.git
-   cd medispeak_backend
-   ```
-
-2. Install dependencies:
-
-   ```
-   bundle install
-   ```
-
-3. Set up the database:
-
-   ```
-   rails db:create db:migrate
-   ```
-
-4. Set up environment variables:
-
-   ```
-   cp example.env .env
-   ```
-
-   Edit `.env` and add your configuration details.
-
-5. Start the server:
-   ```
-   ./bin/dev
-   ```
-
-## API Documentation
-
-WIP
+For detailed setup instructions, please refer to our [Setup Documentation](docs/development_setup.md).
