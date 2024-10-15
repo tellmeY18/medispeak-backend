@@ -98,3 +98,21 @@ This will also _seed_ data into the database that will be useful for testing dur
 ## Start the Rails server
 
     ./bin/dev
+
+## Logging in with Demo Credentials
+
+We've created a demo account for you to use right away. Here are the login details:
+
+- **Username:** `admin@example.com`
+- **Password:** `password123`
+
+These credentials were automatically added to your database during the seeding process. Feel free to use them to dive right in!
+
+### Exploring the Admin Panel
+
+The demo account comes with admin privileges. This means you can access the admin panel.
+
+To visit the admin panel:
+
+1. Log in using the demo credentials
+2. Navigate to: http://localhost:3000/admin
