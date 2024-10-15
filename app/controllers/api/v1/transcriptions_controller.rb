@@ -11,7 +11,7 @@ class Api::V1::TranscriptionsController < Api::BaseController
       transcription.update!(transcription_text: text, status: :transcribed)
       render json: format_transcription(transcription), status: :created
     else
-      render json: {error: "Page not found"}, status: :not_found
+      render json: { error: "Page not found" }, status: :not_found
     end
   end
 
@@ -21,7 +21,7 @@ class Api::V1::TranscriptionsController < Api::BaseController
     if transcription
       render json: format_transcription(transcription)
     else
-      render json: {error: "transcription not found"}, status: :not_found
+      render json: { error: "transcription not found" }, status: :not_found
     end
   end
 
@@ -54,7 +54,7 @@ class Api::V1::TranscriptionsController < Api::BaseController
       ai_generate_completion(transcription)
       render json: format_transcription(transcription)
     else
-      render json: {error: "transcription not found"}, status: :not_found
+      render json: { error: "transcription not found" }, status: :not_found
     end
   end
 

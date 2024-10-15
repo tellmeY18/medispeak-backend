@@ -7,7 +7,7 @@ class ApiToken < ApplicationRecord
 
   before_validation :generate_token, on: :create
 
-  scope :active, -> { where(active: true).where('expires_at > ?', Time.current) }
+  scope :active, -> { where(active: true).where("expires_at > ?", Time.current) }
 
   private
 

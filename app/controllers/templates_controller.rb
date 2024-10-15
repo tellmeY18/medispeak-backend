@@ -1,5 +1,5 @@
 class TemplatesController < ApplicationController
-  before_action :set_template, only: [:show]
+  before_action :set_template, only: [ :show ]
   before_action :authenticate_user!
 
   # Uncomment to enforce Pundit authorization

@@ -17,11 +17,11 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-gem 'inline_svg', '~> 1.10.0'
+gem "inline_svg", "~> 1.10.0"
 
-gem 'delayed_job_active_record', '~> 4.1'
+gem "delayed_job_active_record", "~> 4.1"
 
-gem "administrate", '1.0.0.beta1'
+gem "administrate", "1.0.0.beta1"
 
 # Open AI ruby
 gem "ruby-openai", "~> 6.2.0"

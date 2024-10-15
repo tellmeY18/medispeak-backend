@@ -13,7 +13,7 @@ care_template = Template.create!(
 )
 
 # Create domains for the Care template
-care_domains = ["care.ohc.network", "care.do.ohc.network"]
+care_domains = [ "care.ohc.network", "care.do.ohc.network" ]
 
 care_domains.each do |fqdn|
   Domain.create!(
@@ -29,7 +29,7 @@ medispeak_template = Template.create!(
   description: 'Medispeak demo EMR'
 )
 
-demo_app_domains = ["localhost:3000", "www.medispeak.in"]
+demo_app_domains = [ "localhost:3000", "www.medispeak.in" ]
 
 demo_app_domains.each do |fqdn|
   Domain.create!(

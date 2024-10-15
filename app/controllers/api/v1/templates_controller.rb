@@ -5,7 +5,7 @@ class Api::V1::TemplatesController < Api::BaseController
     if @template
       render "templates/show"
     else
-      render json: {error: "Template not found"}, status: :not_found
+      render json: { error: "Template not found" }, status: :not_found
     end
   end
 
@@ -18,7 +18,7 @@ class Api::V1::TemplatesController < Api::BaseController
     if @template
       render "templates/show"
     else
-      render json: {error: "Template not found for the given domain: #{origin}"}, status: :not_found
+      render json: { error: "Template not found for the given domain: #{origin}" }, status: :not_found
     end
   end
 
@@ -29,7 +29,7 @@ class Api::V1::TemplatesController < Api::BaseController
 
     return host if host
 
-    return 'www.medispeak.in' if request.referer&.include?('medispeak.in')
+    return "www.medispeak.in" if request.referer&.include?("medispeak.in")
 
     nil
   end

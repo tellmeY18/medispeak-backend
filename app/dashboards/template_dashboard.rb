@@ -15,7 +15,7 @@ class TemplateDashboard < Administrate::BaseDashboard
     name: Field::String,
     pages: Field::HasMany,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES

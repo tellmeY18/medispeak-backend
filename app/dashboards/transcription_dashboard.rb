@@ -22,7 +22,7 @@ class TranscriptionDashboard < Administrate::BaseDashboard
     completion_tokens: Field::Number,
     total_tokens: Field::Number,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES

@@ -7,7 +7,7 @@ module OpenaiHelper
   end
 
   def ai_transcribe(file)
-    response = client.audio.translate(parameters: {model: "whisper-1", file: File.open(file)})
+    response = client.audio.translate(parameters: { model: "whisper-1", file: File.open(file) })
     response["text"]
   end
 
@@ -25,12 +25,12 @@ module OpenaiHelper
           messages: [
             {
               "role": "system",
-              "content": system_prompt(transcription),
+              "content": system_prompt(transcription)
             },
             {
               "role": "user",
-              "content": transcription.transcription_text,
-            },
+              "content": transcription.transcription_text
+            }
           ],
           tools: [
             {
@@ -40,12 +40,12 @@ module OpenaiHelper
                 description: "Fill out a form with the data from the user's message",
                 parameters: {
                   type: :object,
-                  properties: {**create_types_form_form_fields(transcription.form_fields, transcription.context)},
-                  required: [],
-                },
-              },
-            },
-          ],
+                  properties: { **create_types_form_form_fields(transcription.form_fields, transcription.context) },
+                  required: []
+                }
+              }
+            }
+          ]
         },
       )
 
@@ -82,7 +82,7 @@ module OpenaiHelper
     {
       prompt_tokens: usage["prompt_tokens"] + transcription.prompt_tokens,
       completion_tokens: usage["completion_tokens"] + transcription.completion_tokens,
-      total_tokens: usage["total_tokens"] + transcription.total_tokens,
+      total_tokens: usage["total_tokens"] + transcription.total_tokens
     }
   end
 
@@ -91,7 +91,7 @@ module OpenaiHelper
     form_fields.each do |form_field|
       fields[form_field.title] = {
         type: :string,
-        description: smart_description(form_field, context),
+        description: smart_description(form_field, context)
       }
     end
     fields

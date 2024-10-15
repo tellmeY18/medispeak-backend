@@ -5,5 +5,5 @@ class Transcription < ApplicationRecord
 
   has_one_attached :audio_file
 
-  enum status: {pending: "pending", transcribed: "transcribed", completion_generated: "completion_generated", failed: "failed"}
+  enum status: { pending: "pending", transcribed: "transcribed", completion_generated: "completion_generated", failed: "failed" }
 end

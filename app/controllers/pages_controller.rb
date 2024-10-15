@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :set_page, only: [:show]
+  before_action :set_page, only: [ :show ]
 
   after_action :verify_authorized
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized

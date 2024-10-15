@@ -1,5 +1,5 @@
 class FormFieldsController < ApplicationController
-  before_action :set_form_field, only: [:show, :edit, :update, :destroy]
+  before_action :set_form_field, only: [ :show, :edit, :update, :destroy ]
   after_action :verify_authorized
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
