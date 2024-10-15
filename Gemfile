@@ -16,23 +16,27 @@ gem "turbo-rails"
 gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
-
+# Load environment variables from .env file
+gem "dotenv-rails", "~> 3.1", groups: %i[development test]
+# Inline SVG
 gem "inline_svg", "~> 1.10.0"
-
+# Delayed job
 gem "delayed_job_active_record", "~> 4.1"
-
+# Administrate for admin panel
 gem "administrate", "1.0.0.beta1"
-
 # Open AI ruby
 gem "ruby-openai", "~> 6.2.0"
-
+# Pagy for pagination
 gem "pagy", "~> 9.0.9"
-
+# Pundit for authorization
 gem "pundit", "~> 2.4"
-
-gem "kaminari", "~> 1.2"
-
+# AWS S3 for file storage
 gem "aws-sdk-s3", require: false
+# Devise for authentication
+gem "devise", "~> 4.9"
+# Tailwind CSS
+gem "tailwindcss-rails", "~> 2.7"
+
 
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
@@ -79,7 +83,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-gem "devise", "~> 4.9"
-
-gem "tailwindcss-rails", "~> 2.7"
