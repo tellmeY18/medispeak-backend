@@ -1,6 +1,6 @@
-<script src="https://medispeak-app.pages.dev/assets/index.html.js" crossorigin="" type="module"></script>
-<link rel="modulepreload" crossorigin="" href="https://medispeak-app.pages.dev/assets/App.js">
-<link rel="stylesheet" href="https://medispeak-app.pages.dev/assets/App.css">
+<script src="<%= ENV.fetch('PLUGIN_BASE_URL') %>/assets/index.html.js" crossorigin="" type="module"></script>
+<link rel="modulepreload" crossorigin="" href="<%= ENV.fetch('PLUGIN_BASE_URL') %>/assets/App.js">
+<link rel="stylesheet" href="<%= ENV.fetch('PLUGIN_BASE_URL') %>/assets/App.css">
 <div class="max-w-3xl mx-auto my-4" >
   <%= content_for :title, "Demo Page" %>
   <h1 class="text-gray-700">

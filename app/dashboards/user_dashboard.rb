@@ -28,7 +28,6 @@ class UserDashboard < Administrate::BaseDashboard
     id
     email
     admin
-    api_tokens
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -37,7 +36,6 @@ class UserDashboard < Administrate::BaseDashboard
     id
     email
     admin
-    api_tokens
     created_at
     updated_at
   ].freeze
