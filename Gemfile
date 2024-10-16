@@ -27,7 +27,7 @@ gem "administrate", "1.0.0.beta1"
 # Open AI ruby
 gem "ruby-openai", "~> 6.2.0"
 # Pagy for pagination
-gem "pagy", "~> 9.0.9"
+gem "pagy", "~> 6.0"
 # Pundit for authorization
 gem "pundit", "~> 2.4"
 # AWS S3 for file storage
@@ -36,6 +36,8 @@ gem "aws-sdk-s3", require: false
 gem "devise", "~> 4.9"
 # Tailwind CSS
 gem "tailwindcss-rails", "~> 2.7"
+# CORS for API
+gem 'rack-cors', "~> 2.0.1"
 
 
 
@@ -76,6 +78,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "pry"
 end
 
 group :test do

@@ -29,7 +29,7 @@ medispeak_template = Template.create!(
   description: 'Medispeak demo EMR'
 )
 
-demo_app_domains = [ "localhost:3000", "www.medispeak.in" ]
+demo_app_domains = [ "localhost:5173", "www.medispeak.in" ]
 
 demo_app_domains.each do |fqdn|
   Domain.create!(

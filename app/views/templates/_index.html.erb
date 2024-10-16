@@ -1,4 +1,4 @@
-<div id="<%= dom_id(template, :index) %>" class="bg-white dark:bg-gray-900 dark:border dark:border-gray-700 rounded-md shadow p-6">
+<div id="<%= dom_id(template, :index) %>" class="bg-white rounded-md shadow p-6">
   <%= turbo_stream_from template %>
   <%= render template %>
   <%= link_to "View", template, class: "btn btn-white" %>

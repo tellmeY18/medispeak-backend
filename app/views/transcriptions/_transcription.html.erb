@@ -18,7 +18,7 @@
             </dt>
             <dd class="text-sm leading-6 text-gray-500">Transcriptions from recording</dd>
           </div>
-          <div class="mt-1 prose prose-sm text-gray-500 dark:text-gray-300">
+          <div class="mt-1 prose prose-sm text-gray-500">
             <p>
               <% if transcription.transcription_text == nil %>
                 No transcription generated.
@@ -36,7 +36,7 @@
           </dt>
           <dd class="text-sm leading-6 text-gray-500">AI Filled Form Fields</dd>
         </div>
-        <div class="mt-1 prose prose-sm text-gray-500 dark:text-gray-300">
+        <div class="mt-1 prose prose-sm text-gray-500">
           <p>
             <% if transcription.ai_response == {} %>
               No response generated with AI.
