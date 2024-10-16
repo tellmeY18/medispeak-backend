@@ -25,7 +25,11 @@ class Api::V1::TemplatesController < Api::BaseController
   private
 
   def find_host(request)
-    host = request.origin.match(%r{https?://([^/]+)}).captures[0] rescue nil
+    host = nil
+
+    if request.original_url && (match_data = request.original_url.match(%r{https?://([^/]+)}))
+      host = match_data[1]
+    end
 
     return host if host
 
