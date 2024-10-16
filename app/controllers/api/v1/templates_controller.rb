@@ -25,12 +25,10 @@ class Api::V1::TemplatesController < Api::BaseController
   private
 
   def find_host(request)
-    host = request.origin.match(%r{https?://([^/]+)}).captures[0] rescue nil
+    extract_host(request.origin) || extract_host(request.original_url)
+  end
 
-    return host if host
-
-    return "www.medispeak.in" if request.referer&.include?("medispeak.in")
-
-    nil
+  def extract_host(url)
+    url&.match(%r{https?://([^/]+)}).captures[0] rescue nil
   end
 end
