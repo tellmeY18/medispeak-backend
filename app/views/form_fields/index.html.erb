@@ -5,10 +5,10 @@
     <div>
       <h1 class="h3">Form Fields</h1>
       <div class="text-sm font-medium">
-        <span class="text-gray-500 dark:text-gray-300/75">Sort by:</span>
-        <%= sortable @form_fields, :title, "Title", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%= sortable @form_fields, :description, "Description", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%= sortable @form_fields, :page_id, "Page", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <span class="text-gray-500">Sort by:</span>
+        <%= sortable @form_fields, :title, "Title", class: "text-gray-700 mr-1" %>
+        <%= sortable @form_fields, :description, "Description", class: "text-gray-700 mr-1" %>
+        <%= sortable @form_fields, :page_id, "Page", class: "text-gray-700 mr-1" %>
       </div>
     </div>
     <%= link_to t("shared.scaffold.new.title", model: "Form Field"), new_page_form_field_path(@page), class: "btn btn-white" %>
