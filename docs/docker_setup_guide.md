@@ -58,13 +58,12 @@ Before running the services, you’ll need to configure environment variables. T
 1. **Create a `.env` file** in the root directory (where the `docker-compose.yml` file is located) with the following content:
 
 ```bash
-# PostgreSQL Database
-DB_NAME=medispeak
-DB_NAME_TEST=medispeak_test
-DB_HOST=medispeak_db
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-DB_PORT=5432
+# OpenAI Credentials
+OPENAI_ACCESS_TOKEN=your_openai_access_token
+OPENAI_ORGANIZATION_ID=your_openai_organization_id
+
+# Plugin Configuration
+PLUGIN_BASE_URL=https://medispeak-app.pages.dev
 
 # Rails Environment
 RAILS_ENV=
@@ -73,18 +72,20 @@ BUNDLE_PATH="/usr/local/bundle"
 BUNDLE_WITHOUT="development test"
 BACKEND_PORT=3000
 
-# OpenAI Credentials
-OPENAI_ACCESS_TOKEN=your_openai_access_token
-OPENAI_ORGANIZATION_ID=your_openai_organization_id
-
 # AWS S3 Configuration (required for production)
 AWS_ACCESS_KEY_ID=your_aws_access_key
 AWS_SECRET_ACCESS_KEY=your_aws_secret_key
 AWS_REGION=your_aws_region
 AWS_BUCKET=your_s3_bucket_name
 
-# Plugin Configuration
-PLUGIN_BASE_URL=https://medispeak-app.pages.dev
+# Database Configuration (Required)
+POSTGRES_IMAGE_TAG=14.2-alpine
+DB_NAME=medispeak
+DB_NAME_TEST=medispeak_test
+DB_HOST=medispeak_db
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+DB_PORT=5432
 ```
 
 > **Note**: `RAILS_ENV` sets the environment (e.g., development, production), `BUNDLE_DEPLOYMENT` ensures only production gems install, `BUNDLE_PATH` defines the gem directory, `BUNDLE_WITHOUT` skips development/test gems, and `BACKEND_PORT` specifies the port the app runs on (default: 3000).
