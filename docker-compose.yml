@@ -41,6 +41,11 @@ services:
       AWS_REGION: ${AWS_REGION}
       AWS_BUCKET: ${AWS_BUCKET}
       PLUGIN_BASE_URL: ${PLUGIN_BASE_URL}
+      MINIO_BUCKET: ${MINIO_BUCKET}
+      MINIO_ACCESS_KEY_ID: ${MINIO_ACCESS_KEY_ID}
+      MINIO_SECRET_ACCESS_KEY: ${MINIO_SECRET_ACCESS_KEY}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_REGION: ${MINIO_REGION}
     volumes:
       - .:/app:cached
     ports:
@@ -49,6 +54,22 @@ services:
       medispeak_db:
         condition: service_healthy
     restart: unless-stopped
+
+  minio:
+    profiles:
+    - "minio"
+    image: bitnami/minio
+    ports:
+    - '9000:9000'
+    - '9001:9001'
+    volumes:
+    - 'minio:/bitnami/minio/data'
+    environment:
+    - MINIO_ROOT_USER=minioadmin
+    - MINIO_ROOT_PASSWORD=minioadmin
+    - MINIO_DEFAULT_BUCKETS=application
 volumes:
   medispeak_data:
+    driver: local
+  minio:
     driver: local

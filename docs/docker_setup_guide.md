@@ -200,6 +200,49 @@ For production deployments, ensure the following:
 
 ---
 
+## 7. Optional MinIO Setup for File Storage
+
+In addition to using AWS S3 for file storage, Medispeak can be configured to use MinIO as an alternative. MinIO is an open-source object storage service that is fully compatible with the AWS S3 API. This section will guide you through setting up MinIO as the file storage service for the Medispeak backend using Docker Compose.
+
+### 7.1 Environment Variables for MinIO
+
+To configure MinIO as the file storage service, you'll need to update your `.env` file with the following environment variables:
+
+```bash
+# MinIO credentials for file storage (required only for production)
+# These are needed to configure Active Storage with MinIO, an S3-compatible object storage service.
+MINIO_ACCESS_KEY_ID=your_minio_access_key_id
+MINIO_SECRET_ACCESS_KEY=your_minio_secret_access_key
+MINIO_ENDPOINT=https://your_minio_endpoint.com
+MINIO_BUCKET=your_minio_bucket_name
+MINIO_REGION=your_minio_region
+```
+
+> **Note**: Replace `your_minio_access_key_id`, `your_minio_secret_access_key`, and `your_minio_bucket_name` with the actual credentials for your MinIO instance. The `MINIO_ENDPOINT` should point to the local MinIO service running on port 9000.
+
+### 7.2 Switching Between AWS and MinIO
+
+You can switch between AWS and MinIO by modifying the `STORAGE_SERVICE` environment variable in the `.env` file:
+
+```bash
+# Default Storage Service
+STORAGE_SERVICE=minio # Set to 'amazon' for AWS S3 or 'local' for local storage
+```
+
+When `STORAGE_SERVICE=minio`, the application will use MinIO for file storage. If you'd like to switch back to AWS S3, simply change the value to `amazon`.
+
+### 7.3 Running the Application with MinIO
+
+After configuring MinIO, you can bring up the services, including the MinIO service, by running:
+
+```bash
+docker-compose --profile minio up -d
+```
+
+> **Note**: The `--profile minio` flag ensures that the MinIO service is only brought up when needed, and the environment variables are properly set.
+
+---
+
 ## Conclusion
 
 By following this guide, you can get the Medispeak backend and its PostgreSQL database up and running using Docker Compose. The environment is flexible, allowing you to adjust configurations via environment variables and scale for both development and production needs.
