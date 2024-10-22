@@ -20,3 +20,7 @@ This is the backend API for Medispeak, a tool that provides seamless transcripti
 ## Setup
 
 For detailed setup instructions, please refer to our [Setup Documentation](docs/development_setup.md).
+
+## Docker Setup
+
+For a containerized environment, detailed instructions are available in our [Developer Setup Guide with Docker Compose](docs/docker_setup_guide.md). This guide explains how to bring up the services required for running Medispeak via Docker, ensuring an efficient and scalable development workflow.
