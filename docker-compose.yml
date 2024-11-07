@@ -46,6 +46,7 @@ services:
       MINIO_SECRET_ACCESS_KEY: ${MINIO_SECRET_ACCESS_KEY}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT}
       MINIO_REGION: ${MINIO_REGION}
+      STORAGE_SERVICE: ${STORAGE_SERVICE}
     volumes:
       - .:/app:cached
     ports:
