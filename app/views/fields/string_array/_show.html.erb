@@ -1,5 +1,5 @@
-<% field.data.map do |item| %>
-  <div>
-    - <%= item %>
-  </div>
-<% end %>
+<ul class="string-array-list">
+  <% field.data&.each do |item| %>
+    <li><%= item %></li>
+  <% end %>
+</ul>
