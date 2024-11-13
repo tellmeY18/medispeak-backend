@@ -1,0 +1,15 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+  <%= f.text_area "#{field.attribute}_raw",
+    value: field.data&.join("\n"),
+    class: "string-array-input",
+    rows: 5,
+    placeholder: "Enter one option per line" %>
+  <% if field.options.key?(:hint) %>
+    <p class="field-unit__hint">
+      <%= field.options[:hint] %>
+    </p>
+  <% end %>
+</div>
