@@ -183,21 +183,21 @@ medispeak_demo_fields = [
     friendly_name: "Gender",
     description: "Gender from options Male, Female, Other",
     field_type: "single_select",
-    enum_options: ["Male", "Female", "Other"]
+    enum_options: [ "Male", "Female", "Other" ]
   },
   {
     title: "symptoms",
     friendly_name: "Symptoms",
     description: "Applicable Symptoms from options",
     field_type: "multi_select",
-    enum_options: ["Headache", "Fever", "Cough", "Cold", "Body Pain"]
+    enum_options: [ "Headache", "Fever", "Cough", "Cold", "Body Pain" ]
   },
   {
     title: "preferred_time",
     friendly_name: "Preferred Time",
     description: "The Preferred Time from the options",
     field_type: "single_select",
-    enum_options: ["Morning", "Afternoon", "Evening"]
+    enum_options: [ "Morning", "Afternoon", "Evening" ]
   },
   {
     title: "full_name",
@@ -241,9 +241,9 @@ medispeak_demo_fields = [
 
 # Update the creation loops to include all attributes
 [
-  [consultation_form, consultation_form_fields],
-  [log_update, log_update_fields],
-  [medispeak_demo_page, medispeak_demo_fields]
+  [ consultation_form, consultation_form_fields ],
+  [ log_update, log_update_fields ],
+  [ medispeak_demo_page, medispeak_demo_fields ]
 ].each do |page, fields|
   fields.each do |field_data|
     FormField.create!(

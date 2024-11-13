@@ -56,7 +56,7 @@ class FormField < ApplicationRecord
   end
 
   def validate_select_options
-    return unless ["single_select", "multi_select"].include?(field_type)
+    return unless [ "single_select", "multi_select" ].include?(field_type)
 
     if enum_options.blank? || enum_options.any?(&:blank?)
       errors.add(:enum_options, "must have at least one non-empty option for select fields")

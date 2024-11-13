@@ -8,7 +8,7 @@ module Administrate
       end
 
       def self.permitted_attribute(attr, _options = nil)
-        ["#{attr}_raw", attr => []]
+        [ "#{attr}_raw", attr => [] ]
       end
 
       def self.html_class
