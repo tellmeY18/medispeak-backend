@@ -10,7 +10,7 @@ class GenericException < StandardError
   def attributes
     {
       code: @code,
-      message:,
+      message:
     }
   end
 end
