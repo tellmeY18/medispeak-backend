@@ -1,18 +1,19 @@
 class Api::V1::TranscriptionsController < Api::BaseController
   include OpenaiHelper
   include Pagy::Backend
+  include ExceptionHandler
+
+  rescue_from Exception, with: :handle_global_exception
 
   # POST /api/v1/pages/:page_id/transcriptions
   def create
     page = Page.find_by(id: params[:page_id])
-    if page
-      transcription = page.transcriptions.create!(transcription_params.merge(user: current_user))
-      text = ai_transcribe(params[:transcription][:audio_file])
-      transcription.update!(transcription_text: text, status: :transcribed)
-      render json: format_transcription(transcription), status: :created
-    else
-      render json: { error: "Page not found" }, status: :not_found
-    end
+    raise GenericException.new(message: "Page not found", code: :not_found) unless page
+
+    transcription = create_transcription(page)
+    render json: format_transcription(transcription), status: :created
+  rescue Seahorse::Client::NetworkingError => e
+    handle_audio_upload_error(e)
   end
 
   # GET /api/v1/transcriptions/:id
@@ -21,7 +22,7 @@ class Api::V1::TranscriptionsController < Api::BaseController
     if transcription
       render json: format_transcription(transcription)
     else
-      render json: { error: "transcription not found" }, status: :not_found
+      raise GenericException.new(message: "Transcription not found", code: :not_found)
     end
   end
 
@@ -54,8 +55,25 @@ class Api::V1::TranscriptionsController < Api::BaseController
       ai_generate_completion(transcription)
       render json: format_transcription(transcription)
     else
-      render json: { error: "transcription not found" }, status: :not_found
+      raise GenericException.new(message: "Transcription not found", code: :not_found)
     end
+  end
+
+  private
+
+  def create_transcription(page)
+    transcription = page.transcriptions.create!(transcription_params.merge(user: current_user))
+    text = ai_transcribe(params[:transcription][:audio_file])
+    transcription.update!(transcription_text: text, status: :transcribed)
+    transcription
+  end
+
+  def handle_audio_upload_error(error)
+    Rails.logger.error("Error saving audio file for transcription: #{error.message}")
+    raise GenericException.new(
+      message: "Error saving audio file for transcription: #{error.message}",
+      code: :failed_dependency
+    )
   end
 
   def transcription_params
