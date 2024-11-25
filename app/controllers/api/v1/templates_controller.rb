@@ -1,7 +1,4 @@
 class Api::V1::TemplatesController < Api::BaseController
-  include ExceptionHandler
-
-  rescue_from Exception, with: :handle_global_exception
   # GET /api/v1/template/:id
   def show
     @template = Template.active.find_by(id: params[:id])

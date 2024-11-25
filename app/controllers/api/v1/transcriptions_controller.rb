@@ -1,9 +1,6 @@
 class Api::V1::TranscriptionsController < Api::BaseController
   include OpenaiHelper
   include Pagy::Backend
-  include ExceptionHandler
-
-  rescue_from Exception, with: :handle_global_exception
 
   # POST /api/v1/pages/:page_id/transcriptions
   def create
