@@ -14,7 +14,7 @@ module OpenaiHelper
   def system_prompt(transcription)
     return transcription.page.prompt if transcription.page.prompt.present?
 
-    "You are an AI assitant filling the form for an user. Make sure that you do not populate the form with any data that the user did not provide. Ensure all data shared by users are correctly split into function arguments."
+    "You are an AI assistant filling the form for a user. Make sure that you do not populate the form with any data that the user did not provide. Ensure all data shared by users are correctly split into function arguments."
   end
 
   def ai_generate_completion(transcription)
@@ -71,11 +71,10 @@ module OpenaiHelper
   end
 
   def smart_description(form_field, context)
-    if context[form_field.title]
-      "#{form_field.description}; Context: #{context[form_field.title]}"
-    else
-      form_field.description
-    end
+    base_description = form_field.description.presence || form_field.friendly_name
+    context_info = context[form_field.title] if context.present?
+
+    [ base_description, context_info ].compact.join("; Context: ")
   end
 
   def usage_tokens(transcription, usage)
@@ -89,10 +88,9 @@ module OpenaiHelper
   def create_types_form_form_fields(form_fields, context)
     fields = {}
     form_fields.each do |form_field|
-      fields[form_field.title] = {
-        type: :string,
+      fields[form_field.title] = form_field.to_json_schema_for_ai.merge(
         description: smart_description(form_field, context)
-      }
+      )
     end
     fields
   end

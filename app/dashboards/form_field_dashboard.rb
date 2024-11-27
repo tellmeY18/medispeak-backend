@@ -10,7 +10,16 @@ class FormFieldDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     description: Field::String,
+    friendly_name: Field::String,
+    field_type: Field::Select.with_options(
+      collection: FormField.field_types.keys.map { |t| [ t.humanize, t ] }
+    ),
     metadata: Field::String.with_options(searchable: false),
+    minimum: Field::String,
+    maximum: Field::String,
+    enum_options: Field::StringArray.with_options(
+      hint: "Enter options for single/multi select fields, one per line"
+    ),
     page: Field::BelongsTo,
     title: Field::String,
     created_at: Field::DateTime,
@@ -25,6 +34,8 @@ class FormFieldDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     title
+    friendly_name
+    field_type
     description
     page
   ].freeze
@@ -34,9 +45,14 @@ class FormFieldDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     title
+    friendly_name
+    field_type
     description
     page
     metadata
+    minimum
+    maximum
+    enum_options
     created_at
     updated_at
   ].freeze
@@ -45,10 +61,15 @@ class FormFieldDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
+    page
+    friendly_name
     title
     description
-    page
     metadata
+    field_type
+    minimum
+    maximum
+    enum_options
   ].freeze
 
   # COLLECTION_FILTERS
