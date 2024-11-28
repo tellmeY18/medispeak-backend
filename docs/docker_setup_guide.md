@@ -218,7 +218,7 @@ MINIO_BUCKET=your_minio_bucket_name
 MINIO_REGION=your_minio_region
 ```
 
-> **Note**: Replace `your_minio_access_key_id`, `your_minio_secret_access_key`, and `your_minio_bucket_name` with the actual credentials for your MinIO instance. The `MINIO_ENDPOINT` should point to the local MinIO service running on port [9000](https://localhost:9000).
+> **Note**: Replace `your_minio_access_key_id`, `your_minio_secret_access_key`, and `your_minio_bucket_name` with the actual credentials for your MinIO instance. The `MINIO_ENDPOINT` should point to the local MinIO service running on port [9000](http://minio:9000/).
 
 ### 7.2 Switching Between AWS and MinIO
 
