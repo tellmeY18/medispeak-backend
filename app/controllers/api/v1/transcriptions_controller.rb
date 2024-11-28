@@ -61,9 +61,8 @@ class Api::V1::TranscriptionsController < Api::BaseController
     text = ai_transcribe(params[:transcription][:audio_file])
     transcription.update!(transcription_text: text, status: :transcribed)
     transcription
-    rescue Seahorse::Client::NetworkingError => e
-      page.transcriptions.update!(status: :failed)
-      handle_audio_upload_error(e)
+  rescue Seahorse::Client::NetworkingError => e
+    handle_audio_upload_error(e)
   end
 
   def handle_audio_upload_error(error)
