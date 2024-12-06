@@ -5,7 +5,7 @@ class Api::V1::TemplatesController < Api::BaseController
     if @template
       render "templates/show"
     else
-      render json: { error: "Template not found" }, status: :not_found
+      raise GenericException.new(message: "Template not found", code: :not_found)
     end
   end
 
@@ -18,7 +18,7 @@ class Api::V1::TemplatesController < Api::BaseController
     if @template
       render "templates/show"
     else
-      render json: { error: "Template not found for the given domain: #{origin}" }, status: :not_found
+      raise GenericException.new(message: "Template not found for the given domain: #{origin}", code: :not_found)
     end
   end
 

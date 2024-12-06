@@ -1,5 +1,6 @@
 module OpenaiHelper
   def client
+    validate_api_credentials
     @client ||= OpenAI::Client.new(
       access_token: ENV["OPENAI_ACCESS_TOKEN"],
       organization_id: ENV["OPENAI_ORGANIZATION_ID"]
@@ -7,8 +8,12 @@ module OpenaiHelper
   end
 
   def ai_transcribe(file)
-    response = client.audio.translate(parameters: { model: "whisper-1", file: File.open(file) })
-    response["text"]
+    begin
+      response = client.audio.translate(parameters: { model: "whisper-1", file: File.open(file) })
+      response["text"]
+    rescue Faraday::Error => e
+      handle_openai_error(e)
+    end
   end
 
   def system_prompt(transcription)
@@ -18,36 +23,40 @@ module OpenaiHelper
   end
 
   def ai_generate_completion(transcription)
-    response =
-      client.chat(
-        parameters: {
-          model: "gpt-3.5-turbo-1106",
-          messages: [
-            {
-              "role": "system",
-              "content": system_prompt(transcription)
-            },
-            {
-              "role": "user",
-              "content": transcription.transcription_text
-            }
-          ],
-          tools: [
-            {
-              type: "function",
-              function: {
-                name: "fill_form",
-                description: "Fill out a form with the data from the user's message",
-                parameters: {
-                  type: :object,
-                  properties: { **create_types_form_form_fields(transcription.form_fields, transcription.context) },
-                  required: []
+    begin
+      response =
+        client.chat(
+          parameters: {
+            model: "gpt-3.5-turbo-1106",
+            messages: [
+              {
+                "role": "system",
+                "content": system_prompt(transcription)
+              },
+              {
+                "role": "user",
+                "content": transcription.transcription_text
+              }
+            ],
+            tools: [
+              {
+                type: "function",
+                function: {
+                  name: "fill_form",
+                  description: "Fill out a form with the data from the user's message",
+                  parameters: {
+                    type: :object,
+                    properties: { **create_types_form_form_fields(transcription.form_fields, transcription.context) },
+                    required: []
+                  }
                 }
               }
-            }
-          ]
-        },
-      )
+            ]
+          },
+        )
+    rescue Faraday::Error => e
+      handle_openai_error(e)
+    end
 
     message = response.dig("choices", 0, "message")
     usage = response.dig("usage")
@@ -93,5 +102,29 @@ module OpenaiHelper
       )
     end
     fields
+  end
+
+  private
+
+  def validate_api_credentials
+    missing_keys = []
+    missing_keys << "API key" unless ENV["OPENAI_ACCESS_TOKEN"].present?
+    missing_keys << "Organization ID" unless ENV["OPENAI_ORGANIZATION_ID"].present?
+
+    if missing_keys.any?
+      raise GenericException.new(
+        message: "OpenAI #{missing_keys.join(' and ')} is missing. Please set it in the environment variable OPENAI_ACCESS_TOKEN and OPENAI_ORGANIZATION_ID.",
+        code: :failed_dependency
+      )
+    end
+  end
+
+  def handle_openai_error(error)
+    raise GenericException.new(
+        message: "The OpenAI request was unsuccessful. " \
+          "Please verify your API key, organization ID, plan, " \
+          "and billing details before attempting again. Error: #{error.message}",
+        code: :failed_dependency
+      )
   end
 end

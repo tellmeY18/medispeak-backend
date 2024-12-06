@@ -1,4 +1,8 @@
 class Api::BaseController < ApplicationController
+  include ExceptionHandler
+
+  rescue_from Exception, with: :handle_global_exception
+
   skip_before_action :verify_authenticity_token
   prepend_before_action :authenticate_api_token!
 
