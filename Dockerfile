@@ -35,9 +35,10 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install specific Bundler version
-RUN gem install bundler:${BUNDLER_VERSION}
-
+# Update RubyGems and install Bundler
+RUN gem update --system && \
+    gem install bundler:${BUNDLER_VERSION} --no-document
+    
 # Copy dependency files
 COPY --link Gemfile Gemfile.lock ./
 
