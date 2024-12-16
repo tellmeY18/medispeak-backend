@@ -243,6 +243,7 @@ GEM
     matrix (0.4.2)
     method_source (1.1.0)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.8)
     minitest (5.25.1)
     msgpack (1.7.2)
     multipart-post (2.4.1)
@@ -263,6 +264,9 @@ GEM
       net-protocol
     net-ssh (7.2.3)
     nio4r (2.7.3)
+    nokogiri (1.16.7)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.7-arm-linux)
@@ -441,6 +445,7 @@ PLATFORMS
   aarch64-linux
   arm-linux
   arm64-darwin
+  ruby
   x86-linux
   x86_64-darwin
   x86_64-linux
