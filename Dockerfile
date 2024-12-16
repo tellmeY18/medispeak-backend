@@ -1,57 +1,28 @@
-ARG RUBY_VERSION=3.2.2
-FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
+FROM ruby:3.2.2-slim
 
-WORKDIR /rails
+# Install essential packages
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    git \
+    libpq-dev \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install base packages
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
-    curl libjemalloc2 libvips postgresql-client && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/apt/archives/*
+# Set working directory
+WORKDIR /app
 
-# Build stage for gems and precompilation
-FROM base AS build
-
-# Install build dependencies and clean up in the same layer
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
-    build-essential git libpq-dev pkg-config && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/apt/archives/*
-
-# Install gems and clean up after installation to save space
-COPY Gemfile Gemfile.lock ./
-RUN bundle install --jobs=4 --retry=3 && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}/ruby/*/cache" "${BUNDLE_PATH}/ruby/*/bundler/gems/*/.git" && \
-    bundle exec bootsnap precompile --gemfile
-
-# Copy application code after bundle install (for caching purposes)
+# Copy project files
 COPY . .
 
-# Precompile bootsnap and assets
-RUN bundle exec bootsnap precompile app/ lib/ && \
-    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Install gems
+RUN bundle install
 
-# Final image for running the application
-FROM base
+# Precompile assets (if needed)
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
-ARG RAILS_ENV \
-    BUNDLE_DEPLOYMENT \
-    BUNDLE_PATH \
-    BUNDLE_WITHOUT
-
-# Copy built artifacts: gems, application
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
-
-# Run as non-root user for security
-RUN groupadd --system --gid 1000 rails && \
-    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
-USER rails:rails
-
-# Entrypoint and default command
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+# Expose port
 EXPOSE 3000
-CMD ["./bin/thrust", "./bin/rails", "server"]
+
+# Default command
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
