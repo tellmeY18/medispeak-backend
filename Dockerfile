@@ -1,6 +1,6 @@
 FROM ruby:3.2.2-slim
 
-# Install essential packages
+# Install Git and other essentials
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
@@ -9,18 +9,17 @@ RUN apt-get update && \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Ensure Git can access repositories
-RUN git config --global --add safe.directory /app
+# Configure Git to use HTTPS instead of SSH
+RUN git config --global url."https://".insteadOf git://
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
-COPY . .
+# Copy only Gemfile first for better caching
+COPY Gemfile Gemfile.lock ./
 
-# Install gems with verbose output and retry
-RUN bundle install --jobs 4 --retry 3 -V
-
+# Install gems with more verbose output and Git configuration
+RUN bundle config set force_ruby_platform true && \
+    bundle install --jobs 4 --retry 3 -V
 # Precompile assets (if needed)
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
