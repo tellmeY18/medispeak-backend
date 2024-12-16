@@ -25,9 +25,6 @@ RUN apt-get update -qq && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/apt/archives/*
 
-# Add build arguments for credentials
-ARG RAILS_MASTER_KEY
-
 # Copy Gemfile and install gems
 COPY Gemfile Gemfile.lock ./
 
@@ -39,9 +36,9 @@ RUN bundle config set --local without 'development test' && \
 # Copy application code
 COPY . .
 
-# Ensure credentials can be decrypted
+# Handle master key using environment variable
 RUN if [ -z "$RAILS_MASTER_KEY" ]; then \
-        echo "Error: RAILS_MASTER_KEY build argument is required" && exit 1; \
+        echo "Error: RAILS_MASTER_KEY environment variable is required" && exit 1; \
     fi && \
     echo "$RAILS_MASTER_KEY" > config/master.key && \
     chmod 600 config/master.key
