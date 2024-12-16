@@ -19,14 +19,7 @@ services:
       retries: 5
 
   medispeak_backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        RAILS_ENV: ${RAILS_ENV}
-        BUNDLE_DEPLOYMENT: ${BUNDLE_DEPLOYMENT}
-        BUNDLE_PATH: ${BUNDLE_PATH}
-        BUNDLE_WITHOUT: ${BUNDLE_WITHOUT}
+    image: registry.coolify.ohc.network/medispeak:latest
     container_name: medispeak_backend
     command: "bundle exec rails c"
     environment:
