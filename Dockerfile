@@ -31,7 +31,7 @@ COPY Gemfile Gemfile.lock ./
 # Install gems
 RUN bundle config set --local without 'development test' && \
     bundle install --jobs=4 --retry=3 && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}/ruby/*/cache" "${BUNDLE_PATH}/ruby/*/bundler/gems/*/.git"
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}/ruby/*/cache" "${BUNDLE_PATH}/ruby/*/bundler/gems/*/.git" \
     echo $RAILS_MASTER_KEY
 
 # Copy application code
