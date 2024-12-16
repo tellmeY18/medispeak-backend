@@ -36,14 +36,20 @@ RUN bundle config set --local without 'development test' && \
 # Copy application code
 COPY . .
 
-# Handle master key using environment variable
-RUN if [ -z "$RAILS_MASTER_KEY" ]; then \
-        echo "Error: RAILS_MASTER_KEY environment variable is required" && exit 1; \
-    fi && \
-    echo "$RAILS_MASTER_KEY" > config/master.key && \
-    chmod 600 config/master.key
+# Create master key script
+RUN echo '#!/bin/bash\n\
+if [ -z "$RAILS_MASTER_KEY" ]; then\n\
+    echo "Warning: RAILS_MASTER_KEY is not set. Using a dummy key for build."\n\
+    echo "dummy-key-for-build-only" > config/master.key\n\
+else\n\
+    echo "$RAILS_MASTER_KEY" > config/master.key\n\
+fi\n\
+chmod 600 config/master.key\n\
+' > /tmp/setup-master-key.sh && \
+    chmod +x /tmp/setup-master-key.sh && \
+    /tmp/setup-master-key.sh
 
-# Precompile assets and bootsnap
+# Precompile assets and bootsnap (use dummy key if needed)
 RUN bundle exec bootsnap precompile --gemfile && \
     bundle exec bootsnap precompile app/ lib/ && \
     bundle exec rails assets:precompile
@@ -60,6 +66,10 @@ USER rails:rails
 RUN echo '#!/bin/bash\n\
 set -e\n\
 rm -f /rails/tmp/pids/server.pid\n\
+if [ -n "$RAILS_MASTER_KEY" ]; then\n\
+    echo "$RAILS_MASTER_KEY" > config/master.key\n\
+    chmod 600 config/master.key\n\
+fi\n\
 exec "$@"\n\
 ' > /rails/bin/docker-entrypoint && \
     chmod +x /rails/bin/docker-entrypoint
