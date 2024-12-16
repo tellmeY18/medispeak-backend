@@ -19,7 +19,9 @@ COPY Gemfile Gemfile.lock ./
 
 # Install gems with more verbose output and Git configuration
 RUN bundle config set force_ruby_platform true && \
-    bundle install --jobs 4 --retry 3 -V
+    bundle install --jobs 4 --retry 3 -V 
+
+RUN bundle lock --add-platform ruby
 # Precompile assets (if needed)
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
