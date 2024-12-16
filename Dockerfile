@@ -17,11 +17,16 @@ WORKDIR /app
 # Copy only Gemfile first for better caching
 COPY Gemfile Gemfile.lock ./
 
-# Install gems with more verbose output and Git configuration
+# Install gems with more verbose output and platform configuration
 RUN bundle config set force_ruby_platform true && \
-    bundle install --jobs 4 --retry 3 -V 
+    bundle config set without 'development test' && \
+    bundle install --jobs 4 --retry 3 -V && \
+    bundle lock --add-platform ruby && \
+    bundle lock --add-platform x86_64-linux
 
-RUN bundle lock --add-platform ruby
+# Copy the rest of the application
+COPY . .
+
 # Precompile assets (if needed)
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
