@@ -1,27 +1,15 @@
 services:
-  medispeak_db:
-    image: 'postgres:${POSTGRES_IMAGE_TAG:?}'
-    container_name: medispeak_db
-    volumes:
-      - medispeak_data:/var/lib/postgresql/data:rw
-    command: postgres -c 'max_connections=500'
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "${DB_PORT}:${DB_PORT}"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
   medispeak_backend:
-    image: registry.coolify.ohc.network/medispeak:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        RAILS_ENV: ${RAILS_ENV}
+        BUNDLE_DEPLOYMENT: ${BUNDLE_DEPLOYMENT}
+        BUNDLE_PATH: ${BUNDLE_PATH}
+        BUNDLE_WITHOUT: ${BUNDLE_WITHOUT}
     container_name: medispeak_backend
-    command: "bundle exec rails c"
+    command: "bundle exec rails s -p ${BACKEND_PORT} -b '0.0.0.0'"
     environment:
       DB_HOST: ${DB_HOST}
       DB_NAME: ${DB_NAME}
@@ -40,28 +28,8 @@ services:
       MINIO_ENDPOINT: ${MINIO_ENDPOINT}
       MINIO_REGION: ${MINIO_REGION}
       STORAGE_SERVICE: ${STORAGE_SERVICE}
+    volumes:
+      - .:/app:cached
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
-    depends_on:
-      medispeak_db:
-        condition: service_healthy
     restart: unless-stopped
-
-  minio:
-    profiles:
-    - "minio"
-    image: bitnami/minio
-    ports:
-    - '9000:9000'
-    - '9001:9001'
-    volumes:
-    - 'minio:/bitnami/minio/data'
-    environment:
-    - MINIO_ROOT_USER=minioadmin
-    - MINIO_ROOT_PASSWORD=minioadmin
-    - MINIO_DEFAULT_BUCKETS=application
-volumes:
-  medispeak_data:
-    driver: local
-  minio:
-    driver: local
