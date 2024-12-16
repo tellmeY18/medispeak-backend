@@ -28,7 +28,7 @@ services:
         BUNDLE_PATH: ${BUNDLE_PATH}
         BUNDLE_WITHOUT: ${BUNDLE_WITHOUT}
     container_name: medispeak_backend
-    command: "/usr/local/bin/bundle exec /usr/local/bundle/bin/rails s -p ${BACKEND_PORT} -b '0.0.0.0'"
+    command: "bundle exec rails c"
     environment:
       DB_HOST: ${DB_HOST}
       DB_NAME: ${DB_NAME}
